@@ -1,0 +1,66 @@
+$colorBgTypeTasks: #EBECF0;
+$fonts: "Roboto";
+$colorFontsForButton: #5E6C84;
+$bgSubmitBtn: #0079BF;
+
+
+
+
+.submit_button {
+    background: $bgSubmitBtn;
+    color: white;
+    font-family: $fonts;
+    font-size: 18px;
+    border: none;
+    width: 100px;
+    height: 29px;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 19px;
+    margin-left: 11px;
+    margin-bottom: 9px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.button_no_active {
+    background: $bgSubmitBtn;
+    color: white;
+    font-family: $fonts;
+    font-size: 18px;
+    border: none;
+    width: 100px;
+    height: 29px;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 19px;
+    margin-left: 11px;
+    margin-bottom: 9px;
+}
+
+
+
+.button_add {
+    position: relative;
+    color: $colorFontsForButton;
+    display: flex;
+    margin-top: 19px;
+    margin-left: 11px;
+    padding-bottom: 9px;
+    border: none;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+
+    &:hover {
+            cursor: pointer;
+    }
+
+    .image-add-button {
+        margin-right: 3px;
+    }
+
+}
