@@ -28,11 +28,9 @@ const arrowCloseProfile = <svg width="12" height="8" viewBox="0 0 12 8" fill="no
 function Header () {
 
     const [open, setOpen] = useState(false);
-    const [showUser, setShowUser] = useState(false);
 
     function showProfile () {
         setOpen(!open);
-        setShowUser(!showUser);
     }
 
     return (
@@ -54,8 +52,8 @@ function Header () {
                     {open && 
                         <div className="container__menu_avatar">
                             <ul className="profile__menu">
-                                <li className="item__profile-menu">Profile</li>
-                                <li className="item__profile-menu">Log Out</li>
+                                <li onClick={showProfile} className="item__profile-menu">Profile</li>
+                                <li onClick={showProfile} className="item__profile-menu">Log Out</li>
                             </ul> 
                         </div>
                     }

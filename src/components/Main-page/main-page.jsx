@@ -1,8 +1,10 @@
 import React, { Children, useEffect, useState } from "react";
 import './style-Backlog.scss';
+import './style-mainPage.scss';
 import scss from '../Button/_button.module.scss';
 
 import BlockForTasks from "../Blocks/BlockForTasks";
+import FormSelect from "../form/form";
 
 
 const imageAddCard = <svg className="image-add-button" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,14 +12,21 @@ const imageAddCard = <svg className="image-add-button" width="16" height="16" vi
                 </svg>;
 
 
-function MainPage () {
+function MainPage ({props}) {
 
+    const [showSelect, setShowSelect] = useState(false);
     const [inputActive, setInputActive] = useState(false);
     const [inputvalue, setInputValue] = useState('');
-    const [classNameButton, setClassNameButton] = useState(scss.button_add)
+    const [classNameButton, setClassNameButton] = useState(scss.button_add);
+
     const [tasksBacklog, setTasksBacklog] = useState(()=> {
         return JSON.parse(localStorage.getItem('list_backlog')) || []
     });
+
+    const [tasksReady, setTasksReady] = useState(()=> {
+        return JSON.parse(localStorage.getItem('list_ready')) || []
+    });
+
 
     useEffect(()=> {
         localStorage.setItem('list_backlog', JSON.stringify(tasksBacklog)) 
@@ -58,24 +67,37 @@ function MainPage () {
         } else {
             setInputActive(true)
         }
-        
-      
     }
     
+    function showSelectTasks() {
+     setShowSelect(!showSelect)
+    }
  
     return (
-       <>
+       <container className="blocks">
             <BlockForTasks
                 tasks={tasksBacklog}
                 title={"Backlog"}
-                showInput={inputActive}
+                add={inputActive}
                 imageForButton={imageAddCard}
-                handleChangeInput={(e)=>getNewTask (e)}
+                handleChangeInput={(e)=>getNewTask(e)}
                 value={inputvalue}
                 handleClickButton={showInput}
                 classNameButton={classNameButton}
             ></BlockForTasks>
-       </>
+            
+            <BlockForTasks
+                tasks={tasksReady}
+                tasksSelect={tasksBacklog}
+                title={"Ready"}
+                showSelect={showSelect}
+                imageForButton={imageAddCard}
+                // handleChangeInput={(e)=>getNewTask(e)}
+                // value={inputvalue}
+                handleClickButton={showSelectTasks}
+                classNameButton={classNameButton}
+            ></BlockForTasks>
+       </container>
     )
 }
 

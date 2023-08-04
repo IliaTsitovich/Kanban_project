@@ -53,6 +53,7 @@ $mainFont: "Roboto", "sans-serif";
 }
 
 .container__menu_avatar {
+    z-index: 100;
     position: absolute;
     right: 9px;
     background-color: #FFFFFF;
@@ -104,9 +105,10 @@ $mainFont: "Roboto", "sans-serif";
             margin-left: 7px;
             padding-top: 8px;
             justify-content: center;
-            &:hover{
-                cursor: pointer;
+            z-index: 100;
+        }
+        .item__profile-menu:hover {
+            cursor: pointer;
                 scale: 1.02;
-            }
         }
 }

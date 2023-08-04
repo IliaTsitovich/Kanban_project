@@ -3,15 +3,17 @@ $fonts: "Roboto";
 $colorFontsForButton: #5E6C84;
 $bgSubmitBtn: #0079BF;
 
-.Backlog {
+.Backlog, .Ready {
     position: relative;
     max-width: 282px;
+    width: 282px;
     height: max-content;
     background: $colorBgTypeTasks;
     border-radius: 10px;
+    margin-right: 24px;
 
     p {
-        padding: 12px;
+        margin: 12px;
         font-size: 17px;
         font-family: "Roboto";
     }
@@ -81,11 +83,11 @@ $bgSubmitBtn: #0079BF;
 
 .item-task {
     max-width: 258px;
+    width: 258px;
     align-items: center;
     font-size: 18px;
     border: none;
     background-color:  #FFFFFF;
-    margin: 5px 5px;
     border-radius: 5px;
     margin: 15px auto;
     margin-top: 0;
@@ -94,8 +96,9 @@ $bgSubmitBtn: #0079BF;
     h4 {
         font-size: 18px;
         font-family: $fonts;
-        width: 258px;
+        width: 241px;
         padding: 7px 8px 7px 9px ;
         font-weight: 400;
     }
 }
+

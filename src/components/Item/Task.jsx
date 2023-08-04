@@ -1,9 +1,12 @@
 import React from "react";
 
-function TodoItem ({item, className}) {
+function TodoItem ({item, className},props) {
            return (
-            <div className={className}
-               key={item.id}>
+            <div 
+                className={className}
+                key={item.id}
+                onClick={props.onClickItem}
+                >
                         <h4>
                         {item.title}
                         </h4>
