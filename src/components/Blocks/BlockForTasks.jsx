@@ -38,7 +38,7 @@ const BlockForTasks = ( props ) => {
                 }
                 {   props.activeButton ?
                     <ButtonElement  
-                        className={"submit_button"}
+                        className={props.classNameButtonSubmit}
                         handleClick={props.handleClickButtonSubmit}
                         showImage={false}
                         titleName={'Submit'}
@@ -46,10 +46,11 @@ const BlockForTasks = ( props ) => {
                     />
                     :
                     <ButtonElement
-                        className={"button_add"}
+                        className={props.classNameButtonAdd}
                         handleClick={props.handleClickButtonAdd}
                         showImage={true}
                         titleName={'Add Card'}
+                        active={props.disabledButton}
                     />
                 }                
                 

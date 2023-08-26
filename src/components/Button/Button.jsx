@@ -12,15 +12,17 @@ function ButtonElement ({
     showImage,
     titleName,
     children,
-    handleChangeButton
+    handleChangeButton,
+    notation
     }) {
     return (
         <button 
+            disabled={active}
             showImage={showImage}
             className={className}
             onClick={handleClick}
             onChange={handleChangeButton}
-            data-title={"Need write new task"}
+            data-title={notation}
             >
             {showImage? imageAddCard : null}{titleName}{children}
 
