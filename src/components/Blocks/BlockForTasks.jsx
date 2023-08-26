@@ -10,7 +10,7 @@ const BlockForTasks = ( props ) => {
 
     return (
         <>
-            <div className={props.title}>
+            <div className={'block_components'}>
                 <p>{props.title}</p>
                 {
                     props.tasks.lenght !== 0? 
@@ -39,7 +39,6 @@ const BlockForTasks = ( props ) => {
                     <ButtonElement
                         className={props.submit? props.classNameButtonSubmit : props.classNameButtonAdd}
                         handleClick={props.submit? props.handleClickButtonSubmit : props.handleClickButtonAdd}
-                        showImage={props.submit? false: true}
                         titleName={props.submit? "Submit":'Add Card'}
                         active={props.disabledButton}
                     />
