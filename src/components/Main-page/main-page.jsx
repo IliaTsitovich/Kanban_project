@@ -10,7 +10,9 @@ function MainPage () {
     //-- start -- for Block-BackLog -- start
     const [inputActive, setInputActive] = useState(false);
     const [inputvalue, setInputValue] = useState('');
-    const [activeButtonBacklog, setActiveButtonBacklog] = useState(false);
+    const [submitButton, setSubmitButton] = useState(false);
+    const [validated, setValidated] = useState(false);
+
     const [tasksBacklog, setTasksBacklog] = useState(()=> {
         return JSON.parse(localStorage.getItem('list_backlog')) || []
     });
@@ -25,11 +27,12 @@ function MainPage () {
 
     // funtion for view input backlog and write new Task
     function showInputBacklog() {
-        setActiveButtonBacklog(!activeButtonBacklog);
+        setSubmitButton(!submitButton);
         setInputActive(!inputActive);
     };
     
     useEffect(()=> console.log(`Tasks is : ${tasksBacklog.length? JSON.stringify(tasksBacklog): "no tasks"}`),[tasksBacklog])
+    useEffect(()=> console.log(`Submit button is ${submitButton}`),[submitButton])
     
     const DayTime = new Date();
 
@@ -39,21 +42,12 @@ function MainPage () {
     function submitNewTaskBacklog() {
         if(inputvalue !== "") {
             getNewArrayBlock(tasksBacklog,inputvalue,"backlog")
-            // let newTaskTitle = inputvalue;
-            // let newTasks = [...tasksBacklog, {
-            //     title: newTaskTitle,
-            //     id: Date.now(),
-            //     status: "backlog",
-            //     describtions: `Task created ${Date.now()} in time: ${DayTime.getUTCHours()}`
-            // }];
-            // setTasksBacklog(newArray);
-            setInputValue('');
+            
             localStorage.setItem('list_backlog', JSON.stringify(tasksBacklog));
-        } else {
-           console.log("write new Task");
-        }
+        } 
+        setInputValue('');
         setInputActive(!inputActive);
-        setActiveButtonBacklog(false);
+        setSubmitButton(!submitButton);
     };
 
     useEffect(()=> {
@@ -108,8 +102,15 @@ function MainPage () {
         }
     },[tasksBacklog]);
 
+    useEffect(()=> {
+        if(inputvalue === "") {
+            setValidated(false)
+        } else {
+            setValidated(true)
+        }
+    },[inputvalue])
 
-    useEffect(()=> console.log(`Current text content Selected Value is ${selectedTask}`),[selectedTask])
+    useEffect(()=> console.log(`Current selected Task From Ready Block is: ${selectedTask? selectedTask: "don`t select"}`),[selectedTask])
 
     function getNewArrayBlock(arr,name,block) {
 
@@ -128,16 +129,16 @@ function MainPage () {
     }
  
     return (
-       <container className="blocks">
+       <div className="blocks">
             <BlockForTasks
-                classNameButtonSubmit = {"submit_button"}
+                classNameButtonSubmit = {validated ? "submit_button validated" : "submit_button"}
                 classNameButtonAdd = {'button_add backlog'}
-                activeButton={activeButtonBacklog}
                 tasks={tasksBacklog}
                 title={"Backlog"}
                 inputActive={inputActive}
                 handleChangeInput={(e)=>getNewTask(e)}
                 value={inputvalue}
+                submit={submitButton}
                 handleClickButtonAdd={showInputBacklog}
                 handleClickButtonSubmit={submitNewTaskBacklog}
             ></BlockForTasks>
@@ -146,6 +147,7 @@ function MainPage () {
                 tasks={tasksReady}
                 tasksSelect={tasksBacklog}
                 title={"Ready"}
+                submit={false}
                 disabledButton = {activeButtonReady}
                 showSelect={showSelect}
                 handleSelectTask={SubmitNewReadyTask}
@@ -153,7 +155,7 @@ function MainPage () {
                 classNameButtonAdd={classNameForButtonReady}
             ></BlockForTasks>
 
-       </container>
+       </div>
     )
 }
 

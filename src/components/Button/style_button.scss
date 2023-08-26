@@ -2,12 +2,13 @@ $colorBgTypeTasks: #EBECF0;
 $fonts: "Roboto";
 $colorFontsForButton: #5E6C84;
 $bgSubmitBtn: #0079BF;
+$imageAddCard: url(../svg/image-add-card.svg);
 
 
 
 
 .submit_button {
-    background: $bgSubmitBtn;
+    background-color: $colorFontsForButton;
     color: white;
     font-family: $fonts;
     font-size: 18px;
@@ -19,77 +20,48 @@ $bgSubmitBtn: #0079BF;
     margin-top: 19px;
     margin-left: 12px;
     margin-bottom: 9px;
-    &:hover::after{
-        cursor:default;
-        content: attr(data-title);
-        position: absolute;
-        left: 45%;
-        font-size: 12px;
-        background-color: #969090;
-        color: black;
-    }
-    &[disabled]:hover::after {
-        cursor: pointer;
-        content: "";
-    }
-    &[disabled]:hover {
+    &.validated {
+        background-color:$bgSubmitBtn;
         cursor: pointer;
     }
 }
-.button_no_active {
-    background: $bgSubmitBtn;
-    color: white;
-    font-family: $fonts;
-    font-size: 18px;
-    border: none;
-    width: 100px;
-    height: 29px;
-    text-align: center;
-    border-radius: 5px;
-    margin-top: 19px;
-    margin-left: 11px;
-    margin-bottom: 9px;
-}
-
 
 
 .button_add {
+    width: 109px;
+    height: max-content;
     position: relative;
     color: $colorFontsForButton;
     display: flex;
     margin-top: 19px;
     margin-left: 11px;
-    padding-bottom: 9px;
+    margin-bottom: 9px;
     border: none;
-    font-family: Roboto;
+    font-family: $fonts;
     font-size: 18px;
     font-weight: 400;
     line-height: 21px;
     letter-spacing: 0em;
-    text-align: center;
     align-items: center;
+    background: $imageAddCard;
+    background-repeat: no-repeat;
+    justify-content:space-around;
+    background-position-x: left;
+    background-position-y: 1px;
+
+    .add-name {
+        margin-left: 3px;
+    }
 
     &.active:hover {
             cursor: pointer;
-            font-size: 20px;
-            svg {
-                width: 20px;
-                height: 20px;
-            }
+            color: #0079BF;
+            
     }
    
     &.backlog:hover {
         cursor: pointer;
-        font-size: 20px;
-            svg {
-                width: 20px;
-                height: 20px;
-            }
-
+        color: #0079BF;
     }
-    
-    .image-add-button {
-        margin-right: 3px;
-    }
-    
+   
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Children } from "react";
 
 
 const imageAddCard = <svg className="image-add-button" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,20 +14,22 @@ function ButtonElement ({
     titleName,
     children,
     handleChangeButton,
-    notation
+    notation,
+    Children
     }) {
     return (
         <button 
             disabled={active}
-            showImage={showImage}
+            // showImage={showImage}
             className={className}
             onClick={handleClick}
             onChange={handleChangeButton}
             data-title={notation}
             >
-            {showImage? imageAddCard : null}{titleName}{children}
+            {children}
+            <span className="add-name submit-name">{titleName}</span>
 
-    </button>
+        </button>
     )
 }
 
