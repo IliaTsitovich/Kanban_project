@@ -3,6 +3,7 @@ import ButtonElement from "../Button/Button";
 import Input from "../input/input";
 import TodoItem from "../Item/Task";
 import FormSelect from "../form/form";
+import '../Button/style_button.scss';
 
 
 const BlockForTasks = ( props ) => {
@@ -14,30 +15,42 @@ const BlockForTasks = ( props ) => {
                 {
                     props.tasks.lenght !== 0? 
                     props.tasks.map(item=>
-                        <TodoItem item = {item} className={"item-task"} key={item.id}/>
+                        <TodoItem  item = {item} className={"item-task"} key={item.id}/>
                 ): null
                 }
                 {
-                    props.add?
+                    props.inputActive?
                         <div className="container_newTask">
                             <Input
                                 typeInput={"text"}
                                 defaultClass={'input-task'}
                                 onChange={props.handleChangeInput}
                                 value={props.value}
+                                placeholder={"Write new Task..."}
                             /> 
                         </div> : null
                 }
                 {props.showSelect?
-                 <FormSelect tasksList = {props.tasksSelect} /> : null
+                 <FormSelect 
+                    tasksList = {props.tasksSelect} 
+                    handleSelectTask={props.handleSelectTask}
+                    /> : null
                 }
-                {
-                    <ButtonElement 
-                        className={props.classNameButton}
-                        handleClick={props.handleClickButton}
-                        >
-                        {props.add? '': props.imageForButton}{props.add? "Submit": "Add Card"}   
-                    </ButtonElement>
+                {   props.activeButton ?
+                    <ButtonElement  
+                        className={"submit_button"}
+                        handleClick={props.handleClickButtonSubmit}
+                        showImage={false}
+                        titleName={'Submit'}
+                        active={props.disabledButton}
+                    />
+                    :
+                    <ButtonElement
+                        className={"button_add"}
+                        handleClick={props.handleClickButtonAdd}
+                        showImage={true}
+                        titleName={'Add Card'}
+                    />
                 }                
                 
             </div>

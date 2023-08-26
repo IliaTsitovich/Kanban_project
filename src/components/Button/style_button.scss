@@ -17,9 +17,22 @@ $bgSubmitBtn: #0079BF;
     text-align: center;
     border-radius: 5px;
     margin-top: 19px;
-    margin-left: 11px;
+    margin-left: 12px;
     margin-bottom: 9px;
-    &:hover {
+    &:hover::after{
+        cursor:default;
+        content: attr(data-title);
+        position: absolute;
+        left: 45%;
+        font-size: 12px;
+        background-color: #969090;
+        color: black;
+    }
+    &[disabled]:hover::after {
+        cursor: pointer;
+        content: "";
+    }
+    &[disabled]:hover {
         cursor: pointer;
     }
 }
