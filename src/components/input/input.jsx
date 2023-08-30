@@ -8,6 +8,8 @@ function Input (props) {
         onChange={props.onChange}
         placeholder={props.placeholder} 
         value={props.value}
+        defaultValue={props.defaultValue}
+        onClick={props.onClick}
         />
     )
 }

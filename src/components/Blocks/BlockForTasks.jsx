@@ -3,6 +3,7 @@ import ButtonElement from "../Button/Button";
 import Input from "../input/input";
 import TodoItem from "../Item/Task";
 import FormSelect from "../form/form";
+ 
 import '../Button/style_button.scss';
 
 
@@ -15,7 +16,15 @@ const BlockForTasks = ( props ) => {
                 {
                     props.tasks.lenght !== 0? 
                     props.tasks.map(item=>
-                        <TodoItem  item = {item} className={"item-task"} key={item.id}/>
+                        <TodoItem  
+                        item = {item} 
+                        className={"item-task"} 
+                        newDescribtions={props.newDescribtions}
+                        handleSubmitForm={props.handleSubmitForm}
+                        handleChangeInputFormTask = {props.handleChangeInputFormTask}
+                        changeContent={props.changeContent}
+                        onChangeNewValueDescribtions={props.onChangeNewValueDescribtions}
+                        key={item.id} />
                 ): null
                 }
                 {

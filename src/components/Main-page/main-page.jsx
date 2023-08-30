@@ -1,4 +1,4 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { Children, useEffect, useState, useId} from "react";
 import './style-Backlog.scss';
 import './style-mainPage.scss';
 
@@ -7,36 +7,37 @@ import BlockForTasks from "../Blocks/BlockForTasks";
 
 function MainPage () {
     
+    
     // Array for Tasks - start-
     const [tasksBacklog, setTasksBacklog] = useState(()=> {
-        return JSON.parse(localStorage.getItem('list_backlog')) || []
+        return JSON.parse(localStorage.getItem('backlog')) || []
     });
 
     const [tasksReady, setTasksReady] = useState(()=> {
-        return JSON.parse(localStorage.getItem('list_ready')) || []
+        return JSON.parse(localStorage.getItem('ready')) || []
     });
 
     const [tasksInPropgress, setTasksInPropgress] = useState(()=> {
-        return JSON.parse(localStorage.getItem('list_inProgress')) || []
+        return JSON.parse(localStorage.getItem('in progress')) || []
     });
     const [tasksFinished, setTasksFinished] = useState(()=> {
-        return JSON.parse(localStorage.getItem('list_finished')) || []
+        return JSON.parse(localStorage.getItem('finished')) || []
     });
 
     useEffect(()=> {
-        localStorage.setItem('list_backlog', JSON.stringify(tasksBacklog)) 
+        localStorage.setItem('backlog', JSON.stringify(tasksBacklog)) 
     }, [tasksBacklog]);
     
     useEffect(()=> {
-       localStorage.setItem('list_ready', JSON.stringify(tasksReady)) 
+       localStorage.setItem('ready', JSON.stringify(tasksReady)) 
     }, [tasksReady]);
     
     useEffect(()=> {
-       localStorage.setItem('list_inProgress', JSON.stringify(tasksInPropgress)) 
+       localStorage.setItem('in progress', JSON.stringify(tasksInPropgress)) 
     }, [tasksInPropgress]);
 
     useEffect(()=> {
-       localStorage.setItem('list_finished', JSON.stringify(tasksFinished)) 
+       localStorage.setItem('finished', JSON.stringify(tasksFinished)) 
     }, [tasksFinished]);
 
 
@@ -66,7 +67,7 @@ function MainPage () {
         if(inputvalue !== "") {
             getNewArrayBlock(tasksBacklog,inputvalue,"backlog")
             
-            localStorage.setItem('list_backlog', JSON.stringify(tasksBacklog));
+            localStorage.setItem('backlog', JSON.stringify(tasksBacklog));
         } 
         setInputValue('');
         setInputActive(!inputActive);
@@ -102,7 +103,7 @@ function MainPage () {
     const [activeButtonFinished, setActiveButtonFinished] = useState(true);
     const [classNameForButtonFinished, setClassNameForButtonFinished] = useState('button_add');
     
-    
+    const [newDescribtions, setNewDescribtions] = useState('');
 
 
     //  const [selectedTask, setSelectedTask] = useState('');
@@ -130,7 +131,8 @@ function MainPage () {
 
         getNewArrayBlock(tasksReady,selectTask,"ready")
 
-        localStorage.setItem('list_ready', JSON.stringify(tasksReady));
+        saveToLocalStorage('ready', tasksReady)
+        // localStorage.setItem('list_ready', JSON.stringify(tasksReady));
         setShowSelectReady(!showSelectReady);
     };
 
@@ -144,7 +146,8 @@ function MainPage () {
 
         getNewArrayBlock(tasksInPropgress,selectTask,"in progress");
 
-        localStorage.setItem('list_inProgress', JSON.stringify(tasksInPropgress));
+        saveToLocalStorage('in progress', tasksInPropgress)
+        // localStorage.setItem('list_inProgress', JSON.stringify(tasksInPropgress));
         setShowSelectInProgress(!showSelectInProgress);
     };
 
@@ -158,11 +161,15 @@ function MainPage () {
 
         getNewArrayBlock(tasksFinished,selectTask,"finished");
 
-        localStorage.setItem('list_finished', JSON.stringify(tasksFinished));
+        saveToLocalStorage('finished', tasksFinished)
+        // localStorage.setItem('list_finished', JSON.stringify(tasksFinished));
         setShowSelectFinished(!showSelectFinished);
     };
 
 
+    function saveToLocalStorage(block, tasks) {
+        localStorage.setItem(`${block}`, JSON.stringify(tasks));
+    }
 
     useEffect(()=> {
         if(tasksBacklog.length !== 0) {
@@ -194,8 +201,10 @@ function MainPage () {
         }
     },[tasksInPropgress]);
 
+    
 
     function getNewArrayBlock(arr,name,block) {
+        
 
         const newArray = [...arr, {
                 title: name,
@@ -214,7 +223,52 @@ function MainPage () {
                 setTasksFinished(newArray)
             }
     }
- 
+
+
+    function getNewDescribtions(block,describtions,currentId) {
+            const blockMain = block;
+            if(block === "backlog") {
+                const arr =  tasksBacklog.forEach((item)=> {
+                    if(item.id = currentId) {
+                        item.describtions = describtions;
+                        // item.id = currentId;
+                    }
+                    return
+                })
+                setTasksBacklog(arr);
+                saveToLocalStorage(blockMain, arr)
+            } else if (block === "ready") {
+                const arr = tasksReady.forEach((item)=> {
+                    if(item.id = currentId) {
+                        item.describtions = describtions;
+                        // item.id = currentId;
+                    }
+                })
+                setTasksReady(arr);
+                saveToLocalStorage(blockMain, arr)
+            } else if (block === "in progress") {
+                const arr = tasksInPropgress.forEach((item)=> {
+                    if(item.id == currentId) {
+                        item.describtions = describtions;
+                        // item.id = currentId;
+                    }
+                })
+                setTasksInPropgress(arr);
+                saveToLocalStorage(blockMain, arr)
+            } else if (block === 'finished') {
+                const arr = tasksFinished.forEach((item)=> {
+                    if(item.id = currentId) {
+                        item.describtions = describtions;
+                        // item.id = currentId;
+                    }
+                })
+                setTasksFinished(arr);
+                saveToLocalStorage(blockMain, arr);
+            }
+    }
+
+    
+
     return (
        <div className="blocks">
             <BlockForTasks
@@ -228,6 +282,8 @@ function MainPage () {
                 submit={submitButton}
                 handleClickButtonAdd={showInputBacklog}
                 handleClickButtonSubmit={submitNewTaskBacklog}
+                handleChangeInputFormTask={()=>{}}
+                changeContent={()=>{}}
             ></BlockForTasks>
             
             <BlockForTasks
