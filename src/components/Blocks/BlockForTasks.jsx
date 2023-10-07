@@ -3,28 +3,49 @@ import ButtonElement from "../Button/Button";
 import Input from "../input/input";
 import TodoItem from "../Item/Task";
 import FormSelect from "../form/form";
+import DescriptionsBlock from "../description/informations";
  
 import '../Button/style_button.scss';
+import '../description/style_blockDescriptions.scss';
 
 
 const BlockForTasks = ( props ) => {
+
 
     return (
         <>
             <div className={'block_components'}>
                 <p>{props.title}</p>
                 {
+                    props.showDescribtions?
+                    <DescriptionsBlock
+                        saveInfo={props.saveInfo}
+                        handleChangeInfo = {props.handleChangeInfo}
+                        item = {props.item}
+                        // selectedIdElement={props.selectedIdElement}
+                    />:null
+                }
+                {
                     props.tasks.lenght !== 0? 
                     props.tasks.map(item=>
-                        <TodoItem  
-                        item = {item} 
-                        className={"item-task"} 
-                        newDescribtions={props.newDescribtions}
-                        handleSubmitForm={props.handleSubmitForm}
-                        handleChangeInputFormTask = {props.handleChangeInputFormTask}
-                        changeContent={props.changeContent}
-                        onChangeNewValueDescribtions={props.onChangeNewValueDescribtions}
-                        key={item.id} />
+                        <TodoItem
+                        key={item.id}  
+                        item = {item}
+                        data-id = {item.id}
+                        data-block = {item.status} 
+                        className={"item-task"}
+                        getInfoTask={(e)=>props.getInfoTask(e.currentTarget.dataset.block, e.currentTarget.dataset.id)}
+                        // handleChangeInfo={props.handleChangeInfo} 
+                        // newDescribtions={props.newDescribtions}
+                        // handleChangeInputFormTask = {props.handleChangeInputFormTask}
+                        // onChangeNewValueDescribtions={props.onChangeNewValueDescribtions}
+                        // key={item.id}
+                        // info={item.descriptions}
+                        // title={item.title}
+                        // saveInfo={props.saveInfo}
+                        // showDescribtions={props.showDescribtions}
+                        openDescriptions={props.openDescriptions}
+                        />
                 ): null
                 }
                 {
