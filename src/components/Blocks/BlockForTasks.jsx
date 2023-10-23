@@ -1,30 +1,44 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { Children, useContext, useEffect, useId, useState} from "react";
 import ButtonElement from "../Button/Button";
 import Input from "../input/input";
 import TodoItem from "../Item/Task";
 import FormSelect from "../form/form";
 import DescriptionsBlock from "../description/informations";
+import { Context } from "../../context";
  
 import '../Button/style_button.scss';
 import '../description/style_blockDescriptions.scss';
 
 
-const BlockForTasks = ( props ) => {
+const BlockForTasks = (props) => {
 
+    // const [inputValueDescriptions, setInputValueDescriptions] = useState('');
+    // useEffect(()=>console.log(inputValueDescriptions),[inputValueDescriptions])
+
+
+    // const {name,setName} = useContext(Context)
+    // useEffect(()=>{console.log(name);},[name])
+
+    // const handleChangeInfo = (value)=> {
+    //     console.log(value);
+    //     setInputValueDescriptions(value)
+    // }
+    
+ 
+   
 
     return (
         <>
             <div className={'block_components'}>
                 <p>{props.title}</p>
-                {
+                {/* {
                     props.showDescribtions?
                     <DescriptionsBlock
+                        item =  {props.item}
                         saveInfo={props.saveInfo}
-                        handleChangeInfo = {props.handleChangeInfo}
-                        item = {props.item}
-                        // selectedIdElement={props.selectedIdElement}
-                    />:null
-                }
+                        onChange = {props.handleChange}
+                    />: ""
+                } */}
                 {
                     props.tasks.lenght !== 0? 
                     props.tasks.map(item=>
@@ -32,19 +46,10 @@ const BlockForTasks = ( props ) => {
                         key={item.id}  
                         item = {item}
                         data-id = {item.id}
-                        data-block = {item.status} 
+                        data-block = {item.status}
+                        data-info = {item.descriptions} 
                         className={"item-task"}
-                        getInfoTask={(e)=>props.getInfoTask(e.currentTarget.dataset.block, e.currentTarget.dataset.id)}
-                        // handleChangeInfo={props.handleChangeInfo} 
-                        // newDescribtions={props.newDescribtions}
-                        // handleChangeInputFormTask = {props.handleChangeInputFormTask}
-                        // onChangeNewValueDescribtions={props.onChangeNewValueDescribtions}
-                        // key={item.id}
-                        // info={item.descriptions}
-                        // title={item.title}
-                        // saveInfo={props.saveInfo}
-                        // showDescribtions={props.showDescribtions}
-                        openDescriptions={props.openDescriptions}
+                        openDescriptions={(e)=>props.openDescriptions(e,e.currentTarget.dataset.block, e.currentTarget.dataset.id, e.currentTarget.dataset.info)}
                         />
                 ): null
                 }
@@ -55,7 +60,7 @@ const BlockForTasks = ( props ) => {
                                 typeInput={"text"}
                                 defaultClass={'input-task'}
                                 onChange={props.handleChangeInput}
-                                value={props.value}
+                                value={props.valueInputNewTask}
                                 placeholder={"Write new Task..."}
                             /> 
                         </div> : null
@@ -74,6 +79,7 @@ const BlockForTasks = ( props ) => {
                     />
                 
             </div>
+            
         </>
             
     )

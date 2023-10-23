@@ -92,9 +92,10 @@ $bgSubmitBtn: #0079BF;
     border-radius: 5px;
     margin: 15px auto;
     margin-top: 0;
-       
-        
-    
+    cursor: pointer;
+    &:active, :hover {
+        scale: 1.02;
+    }
     
     h4 {
         font-size: 18px;

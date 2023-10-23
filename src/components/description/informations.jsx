@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import ButtonElement from "../Button/Button";
+import Input from "../input/input";
+import { Context } from "../../context";
 
-function DescriptionsBlock({array,saveInfo,selectedIdElement,item},props) {
+const DescriptionsBlock = (props) => {
 
-    
-    // const [description,setDescriptions] = useState(item.descriptions)
+  
 
     return (
       <>
-      { item?
         <div className="block_describeTask">
-          <label className="title-descriptions">{item.title}</label>
+          <h1 className="title-descriptions">{props.item.title}</h1>
           <div className="container_text-area">
             <textarea
-              data-id={item.id}
-              data-block={item.status}
               className="area-text"
-              onChange={(e)=>console.log(e.target.value)}
-              defaultValue={item.descriptions}
+              onChange={props.onChange}
+              defaultValue={props.item.descriptions}
             />
             <ButtonElement
-              data-value={item.status}
+              data-value={"itemObj.status"}
               className="svg-icon_close"
-              handleClick={saveInfo}
+              handleClick={props.saveInfo}
             >
               <svg
                 viewBox="0 0 1024 1024"
@@ -40,8 +38,7 @@ function DescriptionsBlock({array,saveInfo,selectedIdElement,item},props) {
               </svg>
             </ButtonElement>
           </div>
-        </div> : null 
-        }
+        </div> 
       </>
     );
 }

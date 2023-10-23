@@ -1,13 +1,14 @@
-import React, { Children, useEffect, useState, useId} from "react";
+import React, { Children, useEffect, useState, useId, useContext} from "react";
+import { Context } from "../../context";
 import './style-Backlog.scss';
 import './style-mainPage.scss';
 
 
 import BlockForTasks from "../Blocks/BlockForTasks";
+import DescriptionsBlock from "../description/informations";
 
-function MainPage () {
-    
-    
+const MainPage = ({...props}) => {
+
     // Array for Tasks - start-
     const [tasksBacklog, setTasksBacklog] = useState(()=> {
         return JSON.parse(localStorage.getItem('backlog')) || []
@@ -60,12 +61,10 @@ function MainPage () {
     };
     
     
-    
-    
     // function for add new task on list and show on block Backlog
     function submitNewTaskBacklog() {
         if(inputvalue !== "") {
-            getNewArrayBlock(tasksBacklog,inputvalue,"backlog")
+            getNewArrayBlock(tasksBacklog,inputvalue,"backlog",'')
             
             localStorage.setItem('backlog', JSON.stringify(tasksBacklog));
         } 
@@ -74,13 +73,8 @@ function MainPage () {
         setSubmitButton(!submitButton);
     };
     
-    
     useEffect(()=> {
-        if(inputvalue === "") {
-            setValidated(false)
-        } else {
-            setValidated(true)
-        }
+        inputvalue === ""? setValidated(false) : setValidated(true)
     },[inputvalue])
 
     useEffect(()=> console.log(`inputvalue is : ${inputvalue? inputvalue: "no value"}`),[inputvalue])
@@ -104,7 +98,32 @@ function MainPage () {
     const [classNameForButtonFinished, setClassNameForButtonFinished] = useState('button_add');
     
 
-   
+    function getNewArrayBlock(arr,name,block,newDescriptions) {
+
+        const dayTime = new Date();
+        const elemId = Date.now();
+        const informations = newDescriptions? 
+        newDescriptions : 
+        `Task added in block: "${block}" on time: ${dayTime.getHours()}:${dayTime.getMinutes() < 10? `0` + dayTime.getMinutes(): dayTime.getMinutes() } on day: ${dayTime.getDate()}.${dayTime.getMonth() + 1}.${dayTime.getFullYear()}`;
+        
+        const newArray = [...arr, {
+            title: name,
+            id: elemId,
+            status: block,
+            descriptions: informations,
+        }]
+
+        if(block === "backlog") {
+            setTasksBacklog(newArray);
+        } else if (block === "ready") {
+            setTasksReady(newArray)
+        } else if (block === "in progress") {
+            setTasksInPropgress(newArray)
+        } else if (block === 'finished') {
+            setTasksFinished(newArray)
+        }
+    }
+
     function showSelectTasks(block) {
         if(block === 'ready') {
             setShowSelectReady(!showSelectReady)
@@ -116,28 +135,46 @@ function MainPage () {
             setShowSelectFinished(!showSelectFinished)
         } 
     }
-    
+
+    const [valueInfoTask,setValueInfoTask] = useState();
+    useEffect(()=>console.log(`value info task to send for new Array task is:` + valueInfoTask),[valueInfoTask])
+
+    function getInformationsCurrentTask(array,value){
+        for(let i = 0; i < array.length; i++) {
+            if(array[i].id == value) {
+                
+                return setValueInfoTask(array[i].descriptions);
+                
+            }
+        }
+    }
+
     function SubmitNewReadyTask(e){
         let selectTask = e.target.textContent;
+        let selectedId = e.currentTarget.dataset.id;
+        console.log(`data-set id Task - selected:` + selectedId);
+        getInformationsCurrentTask(tasksBacklog,selectedId)
+        const filteredArray = tasksBacklog.filter((item) => selectTask !== item.title);
 
-        const filteredBacklog = tasksBacklog.filter((item) => selectTask !== item.title);
+        setTasksBacklog(filteredArray)
 
-        setTasksBacklog(filteredBacklog)
-
-        getNewArrayBlock(tasksReady,selectTask,"ready")
-
+        getNewArrayBlock(tasksReady,selectTask,"ready",valueInfoTask)
+        
         saveToLocalStorage('ready', tasksReady)
         setShowSelectReady(!showSelectReady);
     };
 
     function SubmitNewInProgressTask(e){
         let selectTask = e.target.textContent;
+       
+        let selectedId = e.currentTarget.dataset.id;
+        console.log(`data-set id Task - selected:` + selectedId);
+        getInformationsCurrentTask(tasksReady,selectedId)
+        const filteredArray = tasksReady.filter((item) => selectTask !== item.title);
 
-        const filteredBacklog = tasksReady.filter((item) => selectTask !== item.title);
+        setTasksReady(filteredArray);
 
-        setTasksReady(filteredBacklog);
-
-        getNewArrayBlock(tasksInPropgress,selectTask,"in progress");
+        getNewArrayBlock(tasksInPropgress,selectTask,"in progress",valueInfoTask);
 
         saveToLocalStorage('in progress', tasksInPropgress)
         setShowSelectInProgress(!showSelectInProgress);
@@ -145,12 +182,14 @@ function MainPage () {
 
     function SubmitNewFinishedTask(e){
         let selectTask = e.target.textContent;
+        let selectedId = e.currentTarget.dataset.id;
+        console.log(`data-set id Task - selected:` + selectedId);
+        getInformationsCurrentTask(tasksInPropgress,selectedId)
+        const filteredArray = tasksInPropgress.filter((item) => selectTask !== item.title);
 
-        const filteredBacklog = tasksInPropgress.filter((item) => selectTask !== item.title);
+        setTasksInPropgress(filteredArray);
 
-        setTasksInPropgress(filteredBacklog);
-
-        getNewArrayBlock(tasksFinished,selectTask,"finished");
+        getNewArrayBlock(tasksFinished,selectTask,"finished",valueInfoTask);
 
         saveToLocalStorage('finished', tasksFinished)
         setShowSelectFinished(!showSelectFinished);
@@ -191,130 +230,133 @@ function MainPage () {
         }
     },[tasksInPropgress]);
 
-
-    function getNewArrayBlock(arr,name,block,newDescriptions) {
-        const dayTime = new Date();
-        const elemId = Date.now();
-        const newArray = [...arr, {
-                title: name,
-                id: elemId,
-                status: block,
-                descriptions: newDescriptions? 
-                              newDescriptions : 
-                              `Task added in block: "${block}" on time: ${dayTime.getHours()}:${dayTime.getMinutes() < 10? `0` + dayTime.getMinutes(): dayTime.getMinutes() } on day: ${dayTime.getDate()}.${dayTime.getMonth() + 1}.${dayTime.getFullYear()}`
-            }]
-
-            if(block === "backlog") {
-                setTasksBacklog(newArray);
-            } else if (block === "ready") {
-                setTasksReady(newArray)
-            } else if (block === "in progress") {
-                setTasksInPropgress(newArray)
-            } else if (block === 'finished') {
-                setTasksFinished(newArray)
-            }
-    }
-
-
     // начало реализации 
-    function openDescribtions(e) {
+
+    const [nameCurrentTask,setNameCurrentTask] = useState();
+    useEffect(()=>console.log(nameCurrentTask),[nameCurrentTask])
+
+    const openDescribtions = (e,block,id)=> {
         setShowDescribtions(!showDescribtions)
-        const newBlock = e.currentTarget.dataset.block
-        console.log(`current selected block is : ${newBlock}`)
-        setCurrentBlockElem(newBlock)
-        const newId = e.currentTarget.dataset.id;
-        console.log(`current selected id-task is : ${newId}`)
-        setCurrentIdElem(newId)
+        setNameCurrentTask(e.target.textContent)
 
-        console.log(showDescribtions)
-        // return currentElementInTasks;
-    }
-
-    function getInfoTask(block,newId) {
-        console.log("kakakak");
         console.log(block);
-        console.log(newId);
+        console.log(`Click item with id №: ` + id);
+       
+        getItemOfArray(block,id)
     }
 
-    const [showDescribtions, setShowDescribtions] = useState(false);
+    const getItemOfArray = (block,id) => {
+        let array;
 
+        if(block == "backlog") {
+            array = tasksBacklog;
+            setCurrentArray(tasksBacklog);
+            setCurrentBlockElem("backlog")
+        } else if (block === "ready") {
+            array = tasksReady;
+            setCurrentArray(tasksReady);
+            setCurrentBlockElem("ready")
+        } else if (block === "in progress") {
+            array = tasksInPropgress;
+            setCurrentArray(tasksInPropgress);
+            setCurrentBlockElem("in progress")
+        } else if (block === 'finished') {
+            array = tasksFinished;
+            setCurrentArray(tasksFinished);
+            setCurrentBlockElem("finished")
+        }
+        setCurrentIdElem(id)
+        for(let i = 0; i < array.length; i++) {
+            if(array[i].id == id) {
+                
+                return setCurrentElementInTasks(array[i]);
+                
+            }
+        }
+    }
+    
+    
+    const [showDescribtions, setShowDescribtions] = useState(false);
     const [currentBlockElem, setCurrentBlockElem] = useState('');
     const [currentIdElem, setCurrentIdElem] = useState();
     const [currentArray, setCurrentArray] = useState();
     const [currentElementInTasks, setCurrentElementInTasks] = useState();
+    const [describtions, setDescribtions] = useState();
     
     
-    const [inputValueDescriptions, setInputValueDescriptions] = useState('');
-
-
+    const handleChangeInfo = (e) => {
+        let newInfo = e.target.value
+        setDescribtions(newInfo)
+        setValueInfoTask(newInfo)
+    }
+    
+    
     // useEffect(()=>console.log(currentBlockElem),[currentBlockElem])
-    // useEffect(()=>console.log(currentIdElem),[currentIdElem])
-    useEffect(()=> console.log(currentArray),[currentArray])
+    useEffect(()=>console.log(`UseEffect: Current idElement is: ${currentIdElem}`),[currentIdElem])
+    useEffect(()=> console.log(`currentArray is: ${JSON.stringify(currentArray)}`),[currentArray])
     useEffect(()=>console.log(currentElementInTasks),[currentElementInTasks])
-    useEffect(()=>console.log(inputValueDescriptions),[inputValueDescriptions])
+    useEffect(()=>console.log(showDescribtions? "Block Information Tasks opened":"Block Information Tasks closed"),[showDescribtions])
     
-    
-    
-    function handleChangeInfoText(e) {
-        setInputValueDescriptions(e.currentTarget.value);
-    }
-    
-    //  эту функцию надо закинуть в ончанге
-    function getNewDescribtions(block,describtions,currentId) {
-        
-    }
-
-
-    function getItemOfArray(array,id) {
-        
-        for(let i = 0; i < array.length; i++) {
-            if(array[i].id == id) {
-               setCurrentElementInTasks(array[i]);
-                break;
-            }
-        }
-    }
-
     useEffect(()=>{
-        if(currentBlockElem == "backlog") {
-            setCurrentArray(tasksBacklog);
-            getItemOfArray(tasksBacklog,currentIdElem)
-        } else if (currentBlockElem === "ready") {
-            setCurrentArray(tasksReady);
-            getItemOfArray(tasksReady,currentIdElem)
-        } else if (currentBlockElem === "in progress") {
-            setCurrentArray(tasksInPropgress);
-            getItemOfArray(tasksInPropgress,currentIdElem)
-        } else if (currentBlockElem === 'finished') {
-            setCurrentArray(tasksFinished);
-            getItemOfArray(tasksFinished,currentIdElem)
-        }
-    },[showDescribtions])
+        console.log(describtions)
+    },[describtions])
 
     
+  
+    const closeBlockInfo = () => {
+        if(describtions != undefined) {
+            const newFilter = currentArray.filter((item) => currentIdElem != item.id);
+            console.log(newFilter);
 
+            if(currentBlockElem == "backlog") {
+                getNewArrayBlock(newFilter,nameCurrentTask,currentBlockElem,describtions)
+                saveToLocalStorage(currentBlockElem, tasksBacklog)
+            } else if (currentBlockElem === "ready") {
+                getNewArrayBlock(newFilter,nameCurrentTask,currentBlockElem,describtions)
+                saveToLocalStorage(currentBlockElem, tasksReady)
+            } else if (currentBlockElem === "in progress") {
+                getNewArrayBlock(newFilter,nameCurrentTask,currentBlockElem,describtions)
+                saveToLocalStorage(currentBlockElem, tasksInPropgress)
+            } else if (currentBlockElem === 'finished') {
+                getNewArrayBlock(newFilter,nameCurrentTask,currentBlockElem,describtions)
+                saveToLocalStorage(currentBlockElem, tasksFinished)
+             }
 
+        }
+        
+
+        setShowDescribtions(false)
+    }
+    
+    
     return (
-       <div className="blocks">
+        <main>
+            <div className="blocks">
+             {
+                showDescribtions?
+                    <DescriptionsBlock
+                        key = {currentElementInTasks.id + 1}
+                        item =  {currentElementInTasks}
+                        saveInfo={closeBlockInfo}
+                        onChange = {(e)=>handleChangeInfo(e)}
+                    />: null
+            }
             <BlockForTasks
-                getInfoTask={(e)=>getInfoTask(e)}
                 classNameButtonSubmit = {validated ? "submit_button validated" : "submit_button"}
                 classNameButtonAdd = {'button_add backlog'}
                 tasks={tasksBacklog}
                 title={"Backlog"}
                 inputActive={inputActive}
                 handleChangeInput={(e)=>getValueNewTask(e)}
-                value={inputvalue}
+                valueInputNewTask={inputvalue}
                 submit={submitButton}
                 handleClickButtonAdd={showInputBacklog}
                 handleClickButtonSubmit={submitNewTaskBacklog}
-                handleChangeInfo={(e)=>handleChangeInfoText(e)}
-                saveInfo={()=>setShowDescribtions(false)}
-                openDescriptions={(e)=>openDescribtions(e)}
+                saveInfo={closeBlockInfo}
+                handleChange = {(e)=>handleChangeInfo(e)}
+                openDescriptions={openDescribtions}
                 showDescribtions={showDescribtions}
                 item = {currentElementInTasks}
-                info = {true}
-                array = {currentArray}
                 selectedIdElement = {currentIdElem}
             ></BlockForTasks>
             
@@ -328,12 +370,10 @@ function MainPage () {
                 handleSelectTask={SubmitNewReadyTask}
                 handleClickButtonAdd={activeButtonReady? null: ()=>showSelectTasks('ready')}
                 classNameButtonAdd={classNameForButtonReady}
-                handleChangeInfo={(e)=>handleChangeInfoText(e)}
                 saveInfo={()=>setShowDescribtions(false)}
-                openDescriptions={(e)=>openDescribtions(e)}
+                openDescriptions={openDescribtions}
                 showDescribtions={showDescribtions}
                 item = {currentElementInTasks}
-                info = {true}
                 array = {currentArray}
                 selectedIdElement = {currentIdElem}
             ></BlockForTasks>
@@ -349,10 +389,9 @@ function MainPage () {
                 handleClickButtonAdd={activeButtonInProgress? null: ()=>showSelectTasks('in progress')}
                 classNameButtonAdd={classNameForButtonInProgress}
                 saveInfo={()=>setShowDescribtions(false)}
-                openDescriptions={(e)=>openDescribtions(e)}
+                openDescriptions={openDescribtions}
                 showDescribtions={showDescribtions}
                 item = {currentElementInTasks}
-                info = {true}
                 array = {currentArray}
                 selectedIdElement = {currentIdElem}
             ></BlockForTasks>
@@ -368,14 +407,14 @@ function MainPage () {
                 handleClickButtonAdd={activeButtonFinished? null: ()=>showSelectTasks('finished')}
                 classNameButtonAdd={classNameForButtonFinished}
                 saveInfo={()=>setShowDescribtions(false)}
-                openDescriptions={(e)=>openDescribtions(e)}
+                openDescriptions={openDescribtions}
                 showDescribtions={showDescribtions}
                 item = {currentElementInTasks}
-                info = {true}
                 array = {currentArray}
                 selectedIdElement = {currentIdElem}
             ></BlockForTasks>
-       </div>
+            </div>
+       </main>
     )
 }
 

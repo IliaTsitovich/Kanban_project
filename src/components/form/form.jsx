@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from 'react';
 import './style_selectItems.scss';
-import TodoItem from "../Item/Task";
 
 export default function FormSelect (props) {
 
@@ -20,7 +19,7 @@ export default function FormSelect (props) {
             {openSelect?
                 <ul className="options">
                     {props.tasksList.map((item) => (
-                    <li key={item.id} className="select" onClick={props.handleSelectTask} >
+                    <li key={item.id} data-id = {item.id} className="select" onClick={props.handleSelectTask} >
                         <h4 className="option-item" >{item.title}</h4>
                     </li>
                     ))}

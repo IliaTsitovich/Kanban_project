@@ -34,7 +34,7 @@ function Header () {
     }
 
     return (
-       <>
+       <header>
         <div className="header">
             <div className="container__header">
                 <div className="main-title">
@@ -57,8 +57,8 @@ function Header () {
                             </ul> 
                         </div>
                     }
-        </div>
-       </>
+            </div>
+       </header>
     )
 }
 
