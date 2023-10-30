@@ -49,6 +49,7 @@ $bgArrowDown: url("../svg/select_arrow_down.svg");
         list-style: none;
         
         .option-item {
+            word-wrap: break-word;
             font-family: Roboto;
             font-size: 18px;
             font-weight: 400;

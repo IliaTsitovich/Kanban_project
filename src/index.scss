@@ -8,7 +8,16 @@ $mainBg: #0079BF;
 body {
     background: $mainBg;
     font-family: $fonts, sans-serif;
-    .container__Blocks {
-        margin: 25px 18px;
+    .blocks {
+        margin: 25px auto auto 18px;
+
+    }
+
+    .link-mainPage {
+    text-decoration: none;
+    .title-block{
+        color: black;
+    }
+    
     }
 }

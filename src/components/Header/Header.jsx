@@ -1,6 +1,8 @@
 import React, { useState,Children } from "react";
 import ButtonElement from "../Button/Button";
 import './style-Header.scss'
+import { Link, NavLink } from "react-router-dom";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 
 const imageUser = <svg className="image__Avatar" width="40" height="40" viewBox="0 0 40 40" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -32,20 +34,23 @@ function Header () {
     function showProfile () {
         setOpen(!open);
     }
+  
 
     return (
        <header>
         <div className="header">
             <div className="container__header">
                 <div className="main-title">
+                    <NavLink className={'main-title_Link'} to={'/'}>
                     <p>Awesome Kanban Board</p>
+                    </NavLink>
                 </div>
                 <div className="container__avatar">
                     <ButtonElement 
                     className={'user-image'}
                     active={false}
                     handleClick={showProfile}>
-                        {imageUser}{ open ? arrowCloseProfile :arrowShowProfile }
+                        {imageUser}{ open ? arrowCloseProfile : arrowShowProfile }
                     </ButtonElement>
                 </div>
             </div>

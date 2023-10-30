@@ -19,8 +19,8 @@ export default function FormSelect (props) {
             {openSelect?
                 <ul className="options">
                     {props.tasksList.map((item) => (
-                    <li key={item.id} data-id = {item.id} className="select" onClick={props.handleSelectTask} >
-                        <h4 className="option-item" >{item.title}</h4>
+                    <li key={item.id}  className="select" onClick={props.handleSelectTask} >
+                        <h4 data-id = {item.id} className="option-item" >{item.title}</h4>
                     </li>
                     ))}
                 </ul> : null

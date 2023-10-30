@@ -1,11 +1,9 @@
 .block_describeTask {
-    position: absolute;
-    background-color: #FFFFFF;
+    position: relative;
     margin: auto auto;
-    left: 0;
-    top: 0;
+    background-color: #FFFFFF;
     width: 95vw;
-    height: 95vh;
+    height: 80vh;
     z-index: 99;
     display: flex;
     flex-direction: column;
@@ -37,21 +35,27 @@
             height: 250px;
             font-family: Roboto;
             font-size: 18px;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+
+
+        .svg-icon_close{
+            position: absolute;
+            z-index: 9999;
+            left: 95%;
+            top: 2vh;
+            border: none;
+            width: 32px; 
+            height: 32px;
+            background: url('../svg/cross-svgrepo-com.png');
+            background-size: cover;
+            &:hover,:active {
+                scale: 1.02;
+                cursor: pointer;
+            }
         }
     }
     
-    .svg-icon_close{
-        position: absolute;
-        left: 91vw;
-        top: 17px;
-        background: none;
-        border: none;
-        width: 25px; 
-        height: 25px;
-        vertical-align: middle;
-        overflow: hidden;
-        &:hover,:active {
-            scale: 1.1;
-        }
-    }
 }

@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
+import { Routes, Route, Link, NavLink } from 'react-router-dom';
 import Header from "./components/Header/Header";
 import MainPage from "./components/Main-page/main-page";
-import { Context } from "./context";
+import Footer from "./components/footer/Footer";
+
 import "./index.scss";
+
+export const Context = createContext();
 
 function App() {
 
-  const [name, setName] = useState();
+  const [lenghtTasks, setLenghtTasks] = useState('');
 
   return (
-    <>
+    <Context.Provider value={{lenghtTasks,setLenghtTasks}}>
     <Header/>
-          <div className="container__Blocks">
-            <Context.Provider value={{name,setName}}>
-              <MainPage/>
-            </Context.Provider>       
-          </div>
-    </>
+      <MainPage/>
+    <Footer/>
+    </Context.Provider>
   );
 }
 

@@ -3,6 +3,7 @@ import React from "react";
 function Input (props) {
     return(
         <input 
+        autoFocus={true}
         type={props.typeInput}
         className={props.defaultClass}
         onChange={props.onChange}

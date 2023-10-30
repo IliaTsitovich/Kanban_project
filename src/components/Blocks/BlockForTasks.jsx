@@ -3,47 +3,25 @@ import ButtonElement from "../Button/Button";
 import Input from "../input/input";
 import TodoItem from "../Item/Task";
 import FormSelect from "../form/form";
-import DescriptionsBlock from "../description/informations";
-import { Context } from "../../context";
- 
+
 import '../Button/style_button.scss';
 import '../description/style_blockDescriptions.scss';
+import { Link, NavLink } from "react-router-dom";
 
 
 const BlockForTasks = (props) => {
 
-    // const [inputValueDescriptions, setInputValueDescriptions] = useState('');
-    // useEffect(()=>console.log(inputValueDescriptions),[inputValueDescriptions])
-
-
-    // const {name,setName} = useContext(Context)
-    // useEffect(()=>{console.log(name);},[name])
-
-    // const handleChangeInfo = (value)=> {
-    //     console.log(value);
-    //     setInputValueDescriptions(value)
-    // }
-    
- 
-   
 
     return (
         <>
             <div className={'block_components'}>
-                <p>{props.title}</p>
-                {/* {
-                    props.showDescribtions?
-                    <DescriptionsBlock
-                        item =  {props.item}
-                        saveInfo={props.saveInfo}
-                        onChange = {props.handleChange}
-                    />: ""
-                } */}
+                <p className="title-block">{props.title}</p>
                 {
-                    props.tasks.lenght !== 0? 
+                    props.tasks.lenght != 0? 
                     props.tasks.map(item=>
+                        
+                        <NavLink key={item.id} className="link-task" to={`/tasks/${item.id}`}>
                         <TodoItem
-                        key={item.id}  
                         item = {item}
                         data-id = {item.id}
                         data-block = {item.status}
@@ -51,6 +29,7 @@ const BlockForTasks = (props) => {
                         className={"item-task"}
                         openDescriptions={(e)=>props.openDescriptions(e,e.currentTarget.dataset.block, e.currentTarget.dataset.id, e.currentTarget.dataset.info)}
                         />
+                        </NavLink>
                 ): null
                 }
                 {
@@ -74,6 +53,7 @@ const BlockForTasks = (props) => {
                     <ButtonElement
                         className={props.submit? props.classNameButtonSubmit : props.classNameButtonAdd}
                         handleClick={props.submit? props.handleClickButtonSubmit : props.handleClickButtonAdd}
+                        handleKeyDown={props.submit? props.handleClickButtonSubmit : props.handleClickButtonAdd}
                         titleName={props.submit? "Submit":'Add Card'}
                         active={props.disabledButton}
                     />
