@@ -21,6 +21,8 @@ Kanban board is an app that a system for setting goals and organizing work proce
   <h2>Click "add card" and Write name new Task and after click "submit" or press 'Enter' to add new task for backlog block</h2>
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/add%20task.png"  title="add" alt="image add new task" width='800' height="600"/>&nbsp;
   <h2>Function this application</h2>
+  <h6>Click ib block "ready" "add card" and click on "select menu" - choose task and click on it. This algorithm is the same for other blocks. You can add new task on next block - if 
+if previous contains Tasks</h6>
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/functional.png" title="functional application" alt="functional" width='800' height="600"/>&nbsp;
   <h2>If click on task you can open block information task and will change info </h2>
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/info-task.png" title="info" alt="information task" width='auto' height="auto"/>&nbsp;
