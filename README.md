@@ -1,7 +1,6 @@
 # Project Title
 Kanban board
 
-
 ## Table of Content:
 
 - [About The App](#about-the-app)
@@ -12,16 +11,21 @@ Kanban board
 - [Status](#status)
 
 ## About The App
-[Name of project] is an app that ...
+Kanban board is an app that a system for setting goals and organizing work processes to achieve set goals.
 
 ## Screenshots
 
 <div>
+  Main page
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/main.png"  title="main-page" alt="main page kanban" width='800' height="600"/>&nbsp;
+  Click "add card" to add new task for backlog block
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/add%20task.png"  title="add" alt="image add new task" width='800' height="600"/>&nbsp;
+  Function this application
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/functional.png" title="functional application" alt="functional" width='800' height="600"/>&nbsp;
+  If click on task you can open block information task and will change info 
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/info-task.png" title="info" alt="information task" width='800' height="600"/>&nbsp;
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/new-info.png" title="new-info" alt="new info-task" width='800' height="600"/>&nbsp;
+  Click "This cross" to save new info.
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/save-change-info.png" title="saveinfo" alt="save new info-task" width='800' height="600"/>&nbsp;
  
 </div>
