@@ -17,7 +17,7 @@ Kanban board is an app that a system for setting goals and organizing work proce
 
 <div>
   <h2>Main page</h2>
-  <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/main.png"  title="main-page" alt="main page kanban" width='800' height="600"/>&nbsp;
+  <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/main.png"  title="main-page" alt="main page kanban" width='auto' height="auto"/>&nbsp;
   <h2>Click "add card" to add new task for backlog block</h2>
   <img src="https://github.com/IliaTsitovich/screen-projects/blob/main/kanban/add%20task.png"  title="add" alt="image add new task" width='800' height="600"/>&nbsp;
   <h2>Function this application</h2>
